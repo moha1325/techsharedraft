@@ -9,6 +9,7 @@
 6. [Using the Data](#using-the-data)
     - [Delta](#delta)
     - [HTML](#html)
+    - [Images](#images)
 7. [Conclusion](#conclusion)
 8. [References and Links to More Info](#references-and-links-to-more-info)
 
@@ -104,7 +105,6 @@ The first thing you'll need is to add to the html. Nothing needs to be in the bo
 </html>
 ```
 
-
 To actually add the Quill editor onto your page, the first thing you need to do is add a DOM element which will contain it, and some id to help with actually using that element. So in your body, add a div with the id "editing". 
 
 ```
@@ -188,9 +188,16 @@ Now, when you look at what this HTML displays, you should see a basic Quill edit
 ## Customization
 At this point we now have a QuillJS editor on our page. The next objective is to add more customization to it. Luckily, QuillJS makes this fairly simple through the use of modules, specifically a toolbar.
 
-You can generate a toolbar to be used when intializing the editor. Before you do the initialization, just make a new variable representing options you want to include. The toolbar is an array of arrays, in which each array represents some group of related items(which will also be grouped on the toolbar). Items with more complex options associated with them, such as list types or alignments, are represented by objects or nested arrays. 
+You can generate a toolbar to be used when intializing the editor. Before you do the initialization, just make a new variable representing options you want to include. The toolbar is an array of arrays, in which each array represents some group of related items(which will also be grouped on the toolbar). 
 
-So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar like so. One thing to note is to override default settings for something, you can add a 'false' to the options. This can be seen in the header settings, which are set to ['3', 'false'] to indicate that it should include level 3 headers and to get rid of any other default levels offered. 
+So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar like so. 
+
+One thing to note is to override default settings for something, you can add a 'false' to the options. This can be seen in the header settings, which are set to ['3', 'false'] to indicate that it should include level 3 headers and to get rid of any other default levels offered.
+
+Some more things to remember
+- Giving options for something as an empty array such as '[]' will just give the default options for the toolbar.
+- Items with more complex options associated with them, such as list types or alignments, are represented by objects or nested arrays. 
+- More simple items such as text formatting or single options like the clean option are just strings in their arrays. 
 
 ```
 const toolbarContainer = [
@@ -266,7 +273,41 @@ const quillHtml = quill.getSemanticHtml()
 
 At this point the html equivalent of the editor contents are stored in the quillHtml variable! This is more simple than parsing the delta object, but make sure to sanitize it before putting it in use.
 
-After choosing whether to use the delta or html version of the content, you can send it to the server through whatever methods you wish, such as a POST request. At that point its up to you how to process it. 
+After choosing whether to use the delta or html version of the content, you can send it to the server through whatever methods you wish, such as a POST request(make sure to have an endpoint for it though!). At that point its up to you how to process it. 
+
+### Images
+By default, when the image option is added to the toolbar(with ['image']), it will take in links from a textbox. Then, it will add an <img> element with the source being the link given. With this approach, images are also just part of the basic HTML/Delta contents. 
+![](/images/image_13.png?raw=true)
+
+If you want a different behavior, such as adding images through upload, you can directly alter the behavior of the toolbar itself by adding a handler. To add a handler, write a function first which will cover the case you want it to. So for images, maybe something like this
+
+```
+
+function imageHandler(){
+  console.log("In image handler")
+  let input = document.createElement('input')
+  input.setAttribute('type', 'file')
+  input.setAttribute('accept', 'image/*')
+
+  input.addEventListener('change', function(event){
+    // handle image here
+    // perhaps send to server, or if you want put contents in a variable to send to server along with other editor contents
+
+  })
+
+  input.click();
+
+}
+```
+This handler will first generate an input element for files that only accepts images. Then, it adds an event listener to handle any changes that are done to the input element. That is where you can process the image or do whatever you wish with it. Finally, an input.click() will essentially simulate clicking on the input element, which is what will actually open up the file explorer or equivalent. 
+
+Now that we have a function, we can change the behavior of the image button with 2 lines of JavaScript. 
+
+```
+const toolbar = quill.getModule('toolbar');
+toolbar.addHandler('image', imageHandler);
+```
+This will replace the original handler for clicking the image button with the custom one we just made.
 
 ## Conclusion
 Overall, if you're looking for a rich text editor to add to your site, QuillJS is a great solution. It offers both flexibility and power in a simple box. There's still several things you can do with it that we haven't covered in this tutorial, so make sure to keep an eye out on the links in the reference section. All the code used for this tutorial is present in this github. Thanks for reading.
