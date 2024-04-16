@@ -23,10 +23,69 @@ Many rich text editors fall under the category of "WYSIWYG", standing for "What 
 This tutorial discusses one of the options for someone looking to add a rich text editor to their own site, the open source JavaScript library Quill.js. Quill falls under the category of WYSIWYG editors. It is extremely flexible, providing options for text styling(size, bold, italics, underlines, etc.), alignment, lists, tables, and much more, all wrapped up in a clean UI. It is highly customizable to the developers needs as well, with many options for extending the functionality of the editor. Next up, a tutorial on how to integrate a Quill.js editor into your application.
 
 ## Setup Environment 
-We will be using mostly JavaScript and HTML here to demonstrate, so it is assumed that you have some basic knowledge of both. Any method you have to view/serve your files will be good. Even just downloading the html file you edit and displaying it in the browser will be alright for the basics here, though you might miss out on some features covered later. However, in this tutorial we will use an express.js server to show our main html file(and the static js file that it links to). [This](https://expressjs.com/en/guide/routing.html) is a link to the documentation on how to generate a  express.js server if you wish to learn. [Here](https://medium.com/@naveednadaf/quick-node-express-js-project-setup-guide-88cd4d9a7af3) is another quick tutorial on how to set up an express server that goes over pretty much everything you'll need for this, from installation to routing. We only use one route to serve the html, '/'. 
+We will be using mostly JavaScript and HTML here to demonstrate, so it is assumed that you have some basic knowledge of both. Any method you have to view/serve your files will be good. In this tutorial we will use an express.js server to show our main html file(and the static js file that it links to). Besides what we show here, [this](https://medium.com/@naveednadaf/quick-node-express-js-project-setup-guide-88cd4d9a7af3) is another quick tutorial on how to set up an express server that goes over pretty much everything you'll need for this, from installation to routing. 
+
+The first thing you'll need to do is generate your folder and enter it. Then initialize the node project
+
+```
+npm init
+```
+
+Once everything is installed, add express to the project. 
+```
+npm install express
+```
+At this point, you can generate your server file. Name it whatever you like, but if you name it something other than "index.js", make sure to go into the package.json file and change "main" from "index.js" to whatever your file name is. We used "app.js". 
+
+Now that you have entered your file(henceforth, we will just call it app.js), you can do some setup.
+
+```
+const express = require('express');
+const app = express();
+const path = require('path');
+
+const port = 5117
+```
+
+For storing static files such as css and javascript, we will use a folder called "resources". We will use the express static middleware to serve these files. 
+
+```
+// absolute path for the directories holding the files that are needed
+const resources_dir = path.join(__dirname, 'resources');
+app.use(express.static(resources_dir));
+```
+
+We will store the html in a folder called 'html'. For this tutorial, we will use one file "basic.html" from this folder. Lets setup a route serving this file. As of now basic.html can just be a basic template file.
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title> Template </title>
+    </head>
+
+    <body>
+    </body>
+</html>
+```
+
+Now add a route which serves this file as well as a listener. 
+
+```
+app.get('/', (req, res) => {
+    res.sendFile((path.join(html_dir, 'basic.html')));
+});
+
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});
+```
+
+Now we are done with the setup! From here on out everything will be focused on QuillJS. 
 
 ## Setting Quill Up
-The first thing you'll need is some html. Nothing needs to be in the body (yet), but we should add some links to the head. Specifically, links to the stylesheet for the Quill editor and the Quill library itself. 
+The first thing you'll need is to add to the html. Nothing needs to be in the body(yet), but we should add some links to the head. Specifically, links to the stylesheet for the Quill editor and the Quill library itself. 
 
 ```
 <!DOCTYPE html>
