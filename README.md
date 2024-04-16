@@ -47,7 +47,7 @@ const path = require('path');
 const port = 5117
 ```
 
-For storing static files such as css and javascript, we will use a folder called "resources". We will use the express static middleware to serve these files. 
+For storing static files such as CSS and JavaScript, we will use a folder called "resources". We will use the express static middleware to serve these files. 
 
 ```
 // absolute path for the directories holding the files that are needed
@@ -55,7 +55,7 @@ const resources_dir = path.join(__dirname, 'resources');
 app.use(express.static(resources_dir));
 ```
 
-We will store the html in a folder called 'html'. For this tutorial, we will use one file "basic.html" from this folder. Lets setup a route serving this file. As of now basic.html can just be a basic template file.
+We will store the HTML in a folder called 'html'. For this tutorial, we will use one file "basic.html" from this folder. Lets setup a route serving this file. For now now basic.html can just be a basic template file, though we will be needing it later.
 
 ```
 <!DOCTYPE html>
@@ -135,7 +135,7 @@ const quill = new Quill('#editing', {
   });
 ```
 
-Make sure when you link to the javascript file, to do it after the container was initialized. If you don't, the console will throw an error, since the container won't have been rendered yet. Now, your JavaScript file should look like the above code box, and your html should look something like 
+Make sure when you link to the JavaScript file, to do it after the container was initialized. If you don't, the console will throw an error, since the container won't have been rendered yet. Now, your JavaScript file should look like the above code box, and your HTML should look something like 
 
 ```
 <!DOCTYPE html>
@@ -181,16 +181,16 @@ body{
 }
 ```
 
-Now, when you look at what this html displays, you should see a basic Quill editor. Congrats!
+Now, when you look at what this HTML displays, you should see a basic Quill editor. Congrats!
 
 ![](/images/image_11.png?raw=true)
 
 ## Customization
-At this point we now have a QuillJS rich text editor on our page. The next objective is to add more customization to it. Luckily, QuillJS makes this fairly simple, through the use of modules, specifically a toolbar.
+At this point we now have a QuillJS editor on our page. The next objective is to add more customization to it. Luckily, QuillJS makes this fairly simple through the use of modules, specifically a toolbar.
 
 You can generate a toolbar to be used when intializing the editor. Before you do the initialization, just make a new variable representing options you want to include. The toolbar is an array of arrays, in which each array represents some group of related items(which will also be grouped on the toolbar). Items with more complex options associated with them, such as list types or alignments, are represented by objects or nested arrays. 
 
-So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar like so. 
+So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar like so. One thing to note is to override default settings for something, you can add a 'false' to the options. This can be seen in the header settings, which are set to ['3', 'false'] to indicate that it should include level 3 headers and to get rid of any other default levels offered. 
 
 ```
 const toolbarContainer = [
@@ -221,7 +221,7 @@ Now there are more options available on the toolbar.
 
 ## Using the Data
 
-At this point you might be wondering how to actually use the data from the editor. You have a few options for this. 
+At this point you might be wondering how to actually use the data from the editor. You have a couple of options for this. 
 
 ### Delta 
 In general, you will need to extract the data first. Data in QuillJS is represented through delta objects, which represent the formatted text through JSON. This is a JSON string version of a delta object that represents a single bolded word.
@@ -252,6 +252,7 @@ const submit_button = document.getElementById("submit_button")
 
 submit_button.addEventListener('click', function (){
   const quillContent = quill.getContents();
+  // do something with the contents(parse, send to server...)
 })
 ```
 
