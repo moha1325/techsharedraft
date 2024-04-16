@@ -20,7 +20,7 @@ Rich text editors are software tools for text input. Unlike plain text editors, 
 
 Many rich text editors fall under the category of "WYSIWYG", standing for "What you see is what you get". This indicates that whatever is in the editor at the time the post is published will be reflected in the finished product. Another common kind of rich text editor is a markup editor, which allows users to edit text with markdown or some similar language. 
 
-## QuillJS
+## Quill
 This tutorial discusses one of the options for someone looking to add a rich text editor to their own site, the open source JavaScript library Quill.js. Quill falls under the category of WYSIWYG editors. It is extremely flexible, providing options for text styling(size, bold, italics, underlines, etc.), alignment, lists, tables, and much more, all wrapped up in a clean UI. It is highly customizable to the developers needs as well, with many options for extending the functionality of the editor. Next up, a tutorial on how to integrate a Quill.js editor into your application.
 
 ## Setup Environment 
@@ -83,7 +83,7 @@ app.listen(port, () => {
 });
 ```
 
-Now we are done with the setup! From here on out everything will be focused on QuillJS. 
+Now we are done with the setup! From here on out everything will be focused on Quill. 
 
 ## Setting Quill Up
 The first thing you'll need is to add to the html. Nothing needs to be in the body(yet), but we should add some links to the head. Specifically, links to the stylesheet for the Quill editor and the Quill library itself. 
@@ -186,7 +186,7 @@ Now, when you look at what this HTML displays, you should see a basic Quill edit
 ![](/images/image_11.png?raw=true)
 
 ## Customization
-At this point we now have a QuillJS editor on our page. The next objective is to add more customization to it. Luckily, QuillJS makes this fairly simple through the use of modules, specifically a toolbar.
+At this point we now have a Quill editor on our page. The next objective is to add more customization to it. Luckily, Quill makes this fairly simple through the use of modules, specifically a toolbar.
 
 You can generate a toolbar to be used when intializing the editor. Before you do the initialization, just make a new variable representing options you want to include. The toolbar is an array of arrays, in which each array represents some group of related items(which will also be grouped on the toolbar). 
 
@@ -231,7 +231,7 @@ Now there are more options available on the toolbar.
 At this point you might be wondering how to actually use the data from the editor. You have a couple of options for this. 
 
 ### Delta 
-In general, you will need to extract the data first. Data in QuillJS is represented through delta objects, which represent the formatted text through JSON. This is a JSON string version of a delta object that represents a single bolded word.
+In general, you will need to extract the data first. Data in Quill is represented through delta objects, which represent the formatted text through JSON. This is a JSON string version of a delta object that represents a single bolded word.
 
 ```
 {"ops":[{"attributes":{"bold":true},"insert":"Quilljs bolded"},{"insert":"\n"}]}
@@ -311,7 +311,7 @@ toolbar.addHandler('image', imageHandler);
 This will replace the original handler for clicking the image button with the custom one we just made.
 
 ## Conclusion
-Overall, if you're looking for a rich text editor to add to your site, QuillJS is a great solution. It offers both flexibility and power in a simple box. There's still several things you can do with it that we haven't covered in this tutorial, so make sure to keep an eye out on the links in the reference section. All the code used for this tutorial is present in this github. Thanks for reading.
+Overall, if you're looking for a rich text editor to add to your site, Quill is a great solution. It offers both flexibility and power in a simple box. There's still several things you can do with it that we haven't covered in this tutorial, so make sure to keep an eye out on the links in the reference section. All the code used for this tutorial is present in this github. Thanks for reading.
 
 ## References and Links to More Info
 [API Documentation](https://quilljs.com/docs/api)  
