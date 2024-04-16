@@ -292,7 +292,7 @@ function imageHandler(){
 
   input.addEventListener('change', function(event){
     // handle image here
-    // perhaps send to server, or if you want put contents in a variable to send to server along with other editor contents
+    // perhaps send to server, or contents in a variable to send to server upon submit along with other editor contents
 
   })
 
