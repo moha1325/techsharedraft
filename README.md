@@ -217,6 +217,7 @@ const quill = new Quill('#editing', {
 ```
 
 Now there are more options available on the toolbar. 
+![](/images/image_12.png?raw=true)
 
 ## Using the Data
 
