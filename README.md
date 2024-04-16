@@ -1,5 +1,19 @@
 # Rich Text Editing: Quill
 
+## Table of Contents
+1. [Rich Text Editors](#rich-text-editors)
+2. [QuillJS](#quilljs)
+3. [Setup Environment](#setup-environment)
+4. [Setting Quill Up](#setting-quill-up)
+5. [Customization](#customization)
+6. [Using the Data](#using-the-data)
+    - [Delta](#delta)
+    - [HTML](#html)
+7. [Conclusion](#conclusion)
+8. [References and Links to More Info](#references-and-links-to-more-info)
+
+
+
 ## Rich Text Editors
 Rich text editors are software tools for text input. Unlike plain text editors, rich text editors allow for a variety of formats to make the text more visually appealing. Some of the most common features present in many rich text editors include text formatting options for fonts/text size/weight, multimedia embedding, tables and lists, undo/redo features, and more. The chances are that if you use the internet often, you probably have interacted with a rich text editor, or at least the byproducts of one. One example of a system that uses a rich text editor is Wikipedia, which uses it for generating and editing page content.
 
@@ -173,11 +187,13 @@ The html body now looks like this.
 
 The event listener looks like this. You can get the current contents of the Quill editor by doing a call on the getContents() function for the object.
 
+```
 const submit_button = document.getElementById("submit_button")
 
 submit_button.addEventListener('click', function (){
   const quillContent = quill.getContents();
 })
+```
 
 
 ### HTML
@@ -195,7 +211,7 @@ After choosing whether to use the delta or html version of the content, you can 
 Overall, if you're looking for a rich text editor to add to your site, QuillJS is a great solution. It offers both flexibility and power in a simple box. There's still several things you can do with it that we haven't covered in this tutorial, so make sure to keep an eye out on the links in the reference section. All the code used for this tutorial is present in this github. Thanks for reading.
 
 ## References and Links to More Info
-[API Documentation](https://quilljs.com/docs/api)
-[Quickstart](https://quilljs.com/docs/quickstart/)
-[More Customization](https://quilljs.com/guides/how-to-customize-quill/)
-[Toolbars](https://quilljs.com/docs/modules/toolbar/)
+[API Documentation](https://quilljs.com/docs/api)  
+[Quickstart](https://quilljs.com/docs/quickstart/)  
+[More Customization](https://quilljs.com/guides/how-to-customize-quill/)  
+[Toolbars](https://quilljs.com/docs/modules/toolbar/)  
