@@ -276,7 +276,7 @@ At this point the html equivalent of the editor contents are stored in the quill
 After choosing whether to use the delta or html version of the content, you can send it to the server through whatever methods you wish, such as a POST request(make sure to have an endpoint for it though!). At that point its up to you how to process it. 
 
 ### Images
-By default, when the image option is added to the toolbar(with ['image']), it will take in links from a textbox. Then, it will add an <img> element with the source being the link given. With this approach, images are also just part of the basic HTML/Delta contents. 
+By default, when the image option is added to the toolbar(with ['image']), it will take in links from a textbox. Then, it will add an img element with the source being the link given. With this approach, images are also just part of the basic HTML/Delta contents. 
 ![](/images/image_13.png?raw=true)
 
 If you want a different behavior, such as adding images through upload, you can directly alter the behavior of the toolbar itself by adding a handler. To add a handler, write a function first which will cover the case you want it to. So for images, maybe something like this
