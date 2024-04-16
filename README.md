@@ -83,14 +83,119 @@ Make sure when you link to the javascript file, to do it after the container was
 </html>
 ```
 
+After this, just add some quick CSS to center it horizontally on the page, make the borders more clear, and limit its width a bit. If you also do it in a separate file, make sure to link it in your html with something like 
+
+```
+body{
+    justify-content: center;
+    text-align: center;
+}
+
+#editor_container{
+    width: 60%;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 0px;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+#editing{
+    height: 30vh;
+    width: auto;
+    display: block;
+    background-color: white;
+    border-top: 2px solid rgb(0, 0, 0);
+}
+```
+
 Now, when you look at what this html displays, you should see a basic Quill editor. Congrats!
 
-![](/images/img_11.png?raw=true)
+![](/images/image_11.png?raw=true)
+
+## Customization
+At this point we now have a QuillJS rich text editor on our page. The next objective is to add more customization to it. Luckily, QuillJS makes this fairly simple, through the use of modules, specifically a toolbar.
+
+You can generate a toolbar to be used when intializing the editor. Before you do the initialization, just make a new variable representing options you want to include. The toolbar is an array of arrays, in which each array represents some group of related items(which will also be grouped on the toolbar). Items with more complex options associated with them, such as list types or alignments, are represented by objects or nested arrays. 
+
+So say for example, on top of what we had by default, we wish to add some more things to the toolbar. We can make it so the toolbar only contains the level 3 option for headers, along with strikethroughs and subscript/superscripts. Lets also add in some more default fonts, a color option, and a button which will clean all formatting off the text. To do this, we can initialize the toolbar like so. 
+
+```
+const toolbarContainer = [
+  [{'header': ['3',false]}],
+  [{'font': []}],
+  [{'color': []}],
+  ['bold', 'italic', 'underline', 'strike'],
+  [{'align': ['', 'center', 'right', 'justify']}],
+  [{'list': 'ordered'}, {'list': 'bullet'}],
+  [{ 'script': 'sub'}, { 'script': 'super' }],
+  ['clean']
+];
+```
+
+Then, alter the Quill editor to include the toolbar as a module. 
+
+```
+const quill = new Quill('#editing', {
+    modules : {
+      toolbar: toolbarContainer
+    },
+    theme: 'snow'
+  });
+```
+
+Now there are more options available on the toolbar. 
+
+## Using the Data
+
+At this point you might be wondering how to actually use the data from the editor. You have a few options for this. 
+
+### Delta 
+In general, you will need to extract the data first. Data in QuillJS is represented through delta objects, which represent the formatted text through JSON. This is a JSON string version of a delta object that represents a single bolded word.
+
+```
+{"ops":[{"attributes":{"bold":true},"insert":"Quilljs bolded"},{"insert":"\n"}]}
+```
+
+You might not necessarily need to interact with delta objects to use content. To show an example of how to deal with data from the editor, we'll add a button in the html and an event listener in our JavaScript which will indicate content submission. 
+
+The html body now looks like this. 
+
+```
+<body>
+    <div id="editor_container">
+      <div id="editing">
+      </div>
+    </div>
+    <button id="submit_button"> Submit Content </button>
+    <script src="quill_tutorial.js"></script>
+  </body>
+```
+
+The event listener looks like this. You can get the current contents of the Quill editor by doing a call on the getContents() function for the object.
+
+const submit_button = document.getElementById("submit_button")
+
+submit_button.addEventListener('click', function (){
+  const quillContent = quill.getContents();
+})
 
 
+### HTML
+At this point, you now have the delta version of the editor contents. You now have a couple of choices, namely parse the delta object into whatever form is right for you, or simply get the html. The latter option will most likely require some manual parsing and might take more effort, as there are many cases to cover. However it is very flexible if done correctly. The second option is to completely forsake getting the delta objects and just get the HTML. This can be done with the following command
 
+```
+const quillHtml = quill.getSemanticHtml()
+```
 
+At this point the html equivalent of the editor contents are stored in the quillHtml variable! This is more simple than parsing the delta object, but make sure to sanitize it before putting it in use.
 
+After choosing whether to use the delta or html version of the content, you can send it to the server through whatever methods you wish, such as a POST request. At that point its up to you how to process it. 
 
+## Conclusion
+Overall, if you're looking for a rich text editor to add to your site, QuillJS is a great solution. It offers both flexibility and power in a simple box. There's still several things you can do with it that we haven't covered in this tutorial, so make sure to keep an eye out on the links in the reference section. All the code used for this tutorial is present in this github. Thanks for reading.
 
-
+## References and Links to More Info
+[API Documentation](https://quilljs.com/docs/api)
+[Quickstart](https://quilljs.com/docs/quickstart/)
+[More Customization](https://quilljs.com/guides/how-to-customize-quill/)
+[Toolbars](https://quilljs.com/docs/modules/toolbar/)
